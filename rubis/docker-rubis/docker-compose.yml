@@ -1,0 +1,45 @@
+version: "3"
+
+services:
+  web:
+    container_name: adminNginx
+    image: nginx:latest
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./web:/var/www/html  
+      - ./conf.d:/etc/nginx/conf.d 
+    
+  php:
+    container_name: adminPHP
+    build: php
+    restart: always
+    volumes:
+      - ./web:/var/www/html
+
+  database:
+      container_name: rubis_container_database
+      image: mysql:8.0
+      command: --default-authentication-plugin=mysql_native_password
+      environment:
+        MYSQL_ROOT_PASSWORD: level9high5
+        MYSQL_DATABASE: dbRubis
+        MYSQL_USER: replay
+        MYSQL_PASSWORD: level9high5
+      ports:
+        - '3306:3306'
+      volumes:
+        - ./mysql:/var/lib/mysql
+
+  phpmyadmin:
+      container_name: rubis_container_phpmyadmin
+      image: phpmyadmin
+      restart: always
+      ports:
+        - '8080:80'
+      environment:
+        - PMA_ARBITRARY=1
+
+
