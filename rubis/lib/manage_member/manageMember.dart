@@ -80,7 +80,11 @@ class ManageMemberState extends State<ManageMember> {
           color: colors[index],
         ),
         leading: Icon(menuIcon[index], color: colors[index]),
-        title: Text(menuTitle[index], style: TextStyle(color: colors[index])),
+        title: Text(menuTitle[index],
+            style: TextStyle(
+                color: colors[index],
+                fontSize: 20,
+                fontWeight: FontWeight.bold)),
         children: <Widget>[
           SizedBox(
             width: double.infinity,

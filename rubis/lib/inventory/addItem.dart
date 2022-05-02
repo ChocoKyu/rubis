@@ -1,6 +1,8 @@
 // ignore_for_file: file_names, unrelated_type_equality_checks
 
+import "package:rubis/sizeConfig.dart";
 import "package:flutter/material.dart";
+import "package:rubis/class/itemClass.dart";
 import "package:rubis/utils/functions.dart" as functions;
 import "package:flutter_barcode_scanner/flutter_barcode_scanner.dart";
 
@@ -14,7 +16,7 @@ class ItemWidget extends StatefulWidget {
 class _ItemState extends State<ItemWidget> {
   Map<String, Map<String, List<String>>> itemInput = {
     "qrcode": {},
-    "item collection": {},
+    "collection": {},
     "etat": {},
     "marque": {},
     "lieu": {},
@@ -22,7 +24,7 @@ class _ItemState extends State<ItemWidget> {
   };
   Map<String, String> itemInputType = {
     "qrcode": "barcode",
-    "item collection": "checkbox",
+    "collection": "checkbox",
     "etat": "dropdown",
     "marque": "dropdown",
     "lieu": "dropdown",
@@ -48,6 +50,52 @@ class _ItemState extends State<ItemWidget> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Nouvel item"),
+        actions: <Widget>[
+          const Align(alignment: Alignment.center, child: Text("Ajouter")),
+          IconButton(
+            icon: const Icon(Icons.save_as_rounded),
+            iconSize:
+                IconTheme.of(context).size - SizeConfig.safeBlockVertical * 2,
+            onPressed: () async {
+              bool complet = true;
+              functions.addItem.item.forEach((key, value) {
+                if (value == "" && key != "commentaire") {
+                  complet = false;
+                }
+              });
+              if (complet) {
+                await functions.addItemBDD();
+                functions.addItem = Item({
+                  "qrcode": "",
+                  "collection": "false",
+                  "etat": "",
+                  "marque": "",
+                  "lieu": "",
+                  "type": "",
+                }, {
+                  "qrcode": {},
+                  "collection": {},
+                  "etat": {},
+                  "marque": {},
+                  "lieu": {},
+                  "type": {}
+                }, {
+                  "qrcode": "barcode",
+                  "collection": "checkbox",
+                  "etat": "dropdown",
+                  "marque": "dropdown",
+                  "lieu": "dropdown",
+                  "type": "dropdown"
+                });
+                Navigator.pop(context);
+              } else {
+                const snackBar =
+                    SnackBar(content: Text("Informations incomplètes."));
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              }
+            },
+          ),
+        ],
       ),
       body: ListView.separated(
         separatorBuilder: (context, index) => const Divider(
@@ -94,6 +142,7 @@ class _ItemState extends State<ItemWidget> {
         },
       );
     } else if (addItemInputType[keys[index]] == "checkbox") {
+      functions.addItem.item[keys[index]] = "false";
       return Container(
         padding: const EdgeInsets.symmetric(vertical: 10.0),
         child: CheckboxListTile(
@@ -149,9 +198,9 @@ class _ItemState extends State<ItemWidget> {
                   if (keys[index] == "type") {
                     await functions.getSettingsItem();
                   }
-                  // if (value.split(" ")[0] == "Ajouter") {
-                  //   await _displayTextInputDialog(context, keys[index]);
-                  // }
+                  if (value.split(" ")[0] == "Ajouter") {
+                    await _displayTextInputDialog(context, keys[index], index);
+                  }
                   setState(() {});
                 },
               ),
@@ -191,7 +240,12 @@ class _ItemState extends State<ItemWidget> {
     }
   }
 
-  Future<void> _displayTextInputDialog(BuildContext context, String key) async {
+  Future<void> _displayTextInputDialog(
+    BuildContext context,
+    String key,
+    int index,
+  ) async {
+    String addValue = "";
     String title = "Ajouter un/une autre " + key;
     return showDialog(
       context: context,
@@ -203,6 +257,7 @@ class _ItemState extends State<ItemWidget> {
           ),
           content: TextField(
             onChanged: (value) {
+              addValue = value;
               setState(() {});
             },
           ),
@@ -224,7 +279,14 @@ class _ItemState extends State<ItemWidget> {
             ),
             ElevatedButton(
               child: const Text("Valider"),
-              onPressed: () {
+              onPressed: () async {
+                String keyTrad = functions.googleTrad(key);
+                if (keyTrad != key) {
+                  await functions.addSetting(keyTrad, addValue, "");
+                }
+                functions.addItem.itemInput[key][addValue] = [];
+                functions.addItem.item[key] = addValue;
+                selectedItemValue[index] = functions.capitalize(addValue);
                 setState(() {
                   Navigator.pop(context);
                 });

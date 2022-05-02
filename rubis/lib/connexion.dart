@@ -259,7 +259,9 @@ class _ConnexionState extends State<Connexion> {
                   // nouveau membre
                   style: TextButton.styleFrom(
                     textStyle: const TextStyle(
-                        fontSize: 15, fontFamily: "ZenKurenaido"),
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "ZenKurenaido"),
                   ),
                   onPressed: () {
                     functions.memberNew =

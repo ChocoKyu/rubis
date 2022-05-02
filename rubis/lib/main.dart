@@ -35,8 +35,9 @@ void main() async {
         dividerColor: red,
         iconTheme: IconThemeData(color: red, size: 40.0),
         appBarTheme: AppBarTheme(
-          toolbarTextStyle: TextStyle(color: black),
-          titleTextStyle: TextStyle(color: black),
+          toolbarTextStyle: TextStyle(color: black, fontSize: 16),
+          titleTextStyle: TextStyle(
+              color: black, fontSize: 16, fontWeight: FontWeight.bold),
           color: red,
           iconTheme: IconThemeData(color: black),
         ),
