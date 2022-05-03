@@ -4,10 +4,7 @@ class Item {
   Map<String, String> item = {};
   Map<String, Map<String, List<String>>> itemInput = {};
   Map<String, String> itemInputType = {};
+  int id;
 
-  Item(
-    this.item,
-    this.itemInput,
-    this.itemInputType,
-  );
+  Item(this.item, this.itemInput, this.itemInputType, this.id);
 }

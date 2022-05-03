@@ -124,89 +124,93 @@ class ManageMemberState extends State<ManageMember> {
           "\nDéplacer le membre vers ->";
 
       return SizedBox(
-          width: SizeConfig.safeBlockHorizontal * 45,
-          height: SizeConfig.safeBlockVertical * 25,
-          child: Card(
-              elevation: 4.0,
-              child: Column(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      _showText(context, members[jindex]);
-                    },
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
-                      title: Text(title,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold)),
-                      subtitle: Text(sub),
-                    ),
-                  ),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        if (index != 1)
-                          IconButton(
-                            onPressed: () async {
-                              await functions.changeMemberRole(
-                                  members[jindex].pseudo, 2);
-                              await functions.getMembersList();
-                              setState(() {});
-                            },
-                            icon: Icon(
-                              Icons.bedroom_parent_rounded,
-                              size: 35,
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
-                          ),
-                        if (index != 2)
-                          IconButton(
-                            onPressed: () async {
-                              await functions.changeMemberRole(
-                                  members[jindex].pseudo, 3);
-                              await functions.getMembersList();
-                              setState(() {});
-                            },
-                            icon: Icon(
-                              Icons.catching_pokemon_rounded,
-                              size: 35,
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
-                          ),
-                        if (index != 3)
-                          IconButton(
-                            onPressed: () async {
-                              await functions.changeMemberRole(
-                                  members[jindex].pseudo, 4);
-                              await functions.getMembersList();
-                              setState(() {});
-                            },
-                            icon: Icon(
-                              Icons.admin_panel_settings_outlined,
-                              size: 35,
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
-                          ),
-                      ]),
-                ],
-              )));
+        width: SizeConfig.safeBlockHorizontal * 45,
+        height: SizeConfig.safeBlockVertical * 25,
+        child: Card(
+          elevation: 4.0,
+          child: Column(
+            children: [
+              InkWell(
+                onTap: () {
+                  _showText(context, members[jindex]);
+                },
+                child: ListTile(
+                  contentPadding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
+                  title: Text(title,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold)),
+                  subtitle: Text(sub),
+                ),
+              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    if (index != 1)
+                      IconButton(
+                        onPressed: () async {
+                          await functions.changeMemberRole(
+                              members[jindex].pseudo, 2);
+                          await functions.getMembersList();
+                          setState(() {});
+                        },
+                        icon: Icon(
+                          Icons.bedroom_parent_rounded,
+                          size: 35,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                      ),
+                    if (index != 2)
+                      IconButton(
+                        onPressed: () async {
+                          await functions.changeMemberRole(
+                              members[jindex].pseudo, 3);
+                          await functions.getMembersList();
+                          setState(() {});
+                        },
+                        icon: Icon(
+                          Icons.catching_pokemon_rounded,
+                          size: 35,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                      ),
+                    if (index != 3)
+                      IconButton(
+                        onPressed: () async {
+                          await functions.changeMemberRole(
+                              members[jindex].pseudo, 4);
+                          await functions.getMembersList();
+                          setState(() {});
+                        },
+                        icon: Icon(
+                          Icons.admin_panel_settings_outlined,
+                          size: 35,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                      ),
+                  ]),
+            ],
+          ),
+        ),
+      );
     } else {
       return SizedBox(
-          width: SizeConfig.safeBlockHorizontal * 45,
-          height: SizeConfig.safeBlockVertical * 15,
-          child: Card(
-              elevation: 4.0,
-              child: Column(
-                children: [
-                  ListTile(
-                    contentPadding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
-                    title: Text(elseTitle[index],
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 20)),
-                  ),
-                ],
-              )));
+        width: SizeConfig.safeBlockHorizontal * 45,
+        height: SizeConfig.safeBlockVertical * 15,
+        child: Card(
+          elevation: 4.0,
+          child: Column(
+            children: [
+              ListTile(
+                contentPadding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
+                title: Text(elseTitle[index],
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 20)),
+              ),
+            ],
+          ),
+        ),
+      );
     }
   }
 

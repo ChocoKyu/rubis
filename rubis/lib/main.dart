@@ -21,7 +21,7 @@ void main() async {
           onPrimary: black,
           secondary: accent,
           onSecondary: grey,
-          background: Colors.orange,
+          background: Colors.grey[800],
           onBackground: Colors.green,
           surface: Colors.blue,
           onSurface: Colors.pink,

@@ -86,7 +86,7 @@ class _ItemState extends State<ItemWidget> {
                   "marque": "dropdown",
                   "lieu": "dropdown",
                   "type": "dropdown"
-                });
+                }, 0);
                 Navigator.pop(context);
               } else {
                 const snackBar =
@@ -280,7 +280,7 @@ class _ItemState extends State<ItemWidget> {
             ElevatedButton(
               child: const Text("Valider"),
               onPressed: () async {
-                String keyTrad = functions.googleTrad(key);
+                String keyTrad = functions.googleTrad(key, true);
                 if (keyTrad != key) {
                   await functions.addSetting(keyTrad, addValue, "");
                 }

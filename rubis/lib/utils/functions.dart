@@ -14,6 +14,7 @@ List<Member> inactiveMembers = [];
 List<Member> activeMembers = [];
 List<Member> boardMembers = [];
 List<List<Member>> allMembers = [];
+List<Item> allItems = [];
 bool keepLoged = false;
 Item searchItem;
 Item addItem = Item({
@@ -37,14 +38,14 @@ Item addItem = Item({
   "marque": "dropdown",
   "lieu": "dropdown",
   "type": "dropdown"
-});
+}, 0);
 
 String capitalize(String string) {
   // Formate une chaine de caractere avec une majuscule a la premiere lettre
   return "${string[0].toUpperCase()}${string.substring(1).toLowerCase()}";
 }
 
-String googleTrad(String string) {
+String googleTrad(String string, bool language) {
   // Traduit les mots français avec leur correspondance anglaise de la base de donnees
   Map<String, String> google = {
     "brands": "marque",
@@ -52,8 +53,10 @@ String googleTrad(String string) {
     "locations": "lieu",
   };
   google.forEach((key, value) {
-    if (string == value) {
+    if (string == value && language == true) {
       string = key;
+    } else if (string == key && language == false) {
+      string = value;
     }
   });
 
@@ -212,10 +215,9 @@ Future<http.Response> changeMemberRole(String pseudo, int role) {
   );
 }
 
-Future<String> getConditionsItem() async {
+Future getConditionsItem() async {
   // retourne la liste des etats de la base de donnees
   List<String> conditions = ["choix"];
-  String statut = "";
 
   final response = await http.post(
     Uri.parse(
@@ -231,20 +233,16 @@ Future<String> getConditionsItem() async {
       conditions.add(jsonDecode(response.body)[i]);
     }
     // conditionsItem.add("ajouter un état");
-  } else {
-    statut = "echec";
   }
   for (var el in conditions) {
     addItem.itemInput["etat"][el] = [];
   }
   addItem.itemInput["etat"]["ajouter un etat"] = [];
-  return statut;
 }
 
-Future<String> getBrandsItem() async {
+Future getBrandsItem() async {
   // retourne la liste des marques de la base de donnees
   List<String> brands = ["choix"];
-  String statut = "";
 
   final response = await http.post(
     Uri.parse(
@@ -260,20 +258,16 @@ Future<String> getBrandsItem() async {
       brands.add(jsonDecode(response.body)[i]);
     }
     // brandsItem.add("ajouter une marque");
-  } else {
-    statut = "echec";
   }
   for (var el in brands) {
     addItem.itemInput["marque"][el] = [];
   }
   addItem.itemInput["marque"]["ajouter une marque"] = [];
-  return statut;
 }
 
-Future<String> getLocations() async {
+Future getLocations() async {
   // retourne la liste des lieux de la base de donnees
   List<String> lieux = ["choix"];
-  String statut = "";
 
   final response = await http.post(
     Uri.parse(
@@ -288,20 +282,16 @@ Future<String> getLocations() async {
     for (var i = 0; i < jsonDecode(response.body).length; i++) {
       lieux.add(jsonDecode(response.body)[i]);
     }
-  } else {
-    statut = "echec";
   }
   for (var el in lieux) {
     addItem.itemInput["lieu"][el] = [];
   }
   addItem.itemInput["lieu"]["ajouter un lieu"] = [];
-  return statut;
 }
 
-Future<String> getTypesItem() async {
+Future getTypesItem() async {
   // retourne la liste des types de parametres de la base de donnees
   List<String> types = ["choix"];
-  String statut = "";
 
   final response = await http.post(
     Uri.parse(
@@ -317,16 +307,13 @@ Future<String> getTypesItem() async {
       types.add(jsonDecode(response.body)[i]);
     }
     // typesItem.add("ajouter un type");
-  } else {
-    statut = "echec";
   }
   for (var el in types) {
     addItem.itemInput["type"][el] = [];
   }
-  return statut;
 }
 
-Future<String> getSettingsItem() async {
+Future getSettingsItem() async {
   // retourne tous les parametres existant dans la base de donnees par rapport au type selectionne
   // on vide les deux dictionnaires qui contiennent les paramètres correspondant à un type particulier
   int index = 0;
@@ -343,7 +330,6 @@ Future<String> getSettingsItem() async {
     addItem.itemInputType.remove(key);
   }
 
-  String statut = "";
   final response = await http.post(
     Uri.parse(
         "http://192.168.4.153/getSettingsItem.php"), //ipconfig -all: ip  de la carte réseaux sans fil wifi si en localhost pour test (désactiver le par-feu)
@@ -373,13 +359,10 @@ Future<String> getSettingsItem() async {
         addItem.itemInput[key]["ajouter un nouveau"] = [];
       });
     }
-  } else {
-    statut = "echec";
   }
   addItem.item["commentaire"] = "";
   addItem.itemInput["commentaire"] = {};
   addItem.itemInputType["commentaire"] = "textfield";
-  return statut;
 }
 
 Future addSetting(table, value, condition) async {
@@ -415,6 +398,43 @@ Future initAddItem() async {
   await getBrandsItem();
   await getLocations();
   await getTypesItem();
+}
+
+Future getInventory(String condition) async {
+  allItems = [];
+
+  final response = await http.post(
+    Uri.parse(
+        "http://192.168.4.153/getInventory.php"), //ipconfig -all: ip  de la carte réseaux sans fil wifi si en localhost pour test (désactiver le par-feu)
+    headers: <String, String>{
+      "Content-Type": "application/json; charset=UTF-8",
+    },
+    body: jsonEncode(<String, String>{"where": condition}),
+  );
+
+  if (response.statusCode == 200) {
+    if (!json.decode(response.body).isEmpty) {
+      json.decode(response.body).forEach(
+        (key, value) {
+          Item itemInventory = Item({}, {}, {}, int.parse(key));
+          value.forEach(
+            (thisKey, thisValue) {
+              if (thisValue == 0) {
+                thisValue = "non";
+              } else if (thisValue == 1) {
+                thisValue = "oui";
+              }
+              if (thisKey != "commentaire") {
+                itemInventory.item[thisKey] = thisValue.toString();
+              }
+            },
+          );
+          itemInventory.item["commentaire"] = value["commentaire"];
+          allItems.add(itemInventory);
+        },
+      );
+    }
+  }
 }
 
 Future deconnexion() async {

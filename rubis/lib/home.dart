@@ -3,11 +3,12 @@ import "package:rubis/sizeConfig.dart";
 import "package:flutter/material.dart";
 import "package:rubis/inventory/addItem.dart";
 import "package:rubis/userSecurStorage.dart";
+import "package:rubis/inventory/scanner.dart";
 import "package:rubis/inventory/inventory.dart";
 import "package:rubis/manage_member/manageMember.dart";
 import "package:rubis/utils/functions.dart" as functions;
 import "package:permission_handler/permission_handler.dart";
-// import "package:flutter_barcode_scanner/flutter_barcode_scanner.dart";
+import "package:flutter_barcode_scanner/flutter_barcode_scanner.dart";
 
 class Home extends StatefulWidget {
   const Home({Key key}) : super(key: key);
@@ -149,10 +150,6 @@ class CardMenu extends StatelessWidget {
               ? double.infinity
               : SizeConfig.safeBlockHorizontal * 22,
           decoration: BoxDecoration(
-            // image: const DecorationImage(
-            //   image: AssetImage("assets/images/23018.jpg"),
-            //   fit: BoxFit.cover,
-            // ),
             color: Theme.of(context).colorScheme.primary,
             borderRadius: BorderRadius.circular(20.0),
           ),
@@ -180,8 +177,16 @@ class CardMenu extends StatelessWidget {
         onTap: () async {
           if (index == 0) {
             if (functions.memberConnexion.role != "inactif") {
-              // String cameraScanResult = await FlutterBarcodeScanner.scanBarcode(
-              //     "#ff6666", "Passer", false, ScanMode.DEFAULT);
+              String cameraScanResult = await FlutterBarcodeScanner.scanBarcode(
+                  "#ff6666", "Cancel", false, ScanMode.DEFAULT);
+              await functions.getInventory(
+                  "WHERE items.qrcode = '" + cameraScanResult + "'");
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const Scanner(),
+                ),
+              );
             } else {
               const snackBar = SnackBar(
                   content: Text(
@@ -197,6 +202,7 @@ class CardMenu extends StatelessWidget {
               ),
             );
           } else if (index == 2) {
+            await functions.getInventory("");
             Navigator.push(
               context,
               MaterialPageRoute(
