@@ -215,7 +215,6 @@ class _ItemState extends State<ItemWidget> {
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
         ),
         subtitle: TextField(
-          obscureText: true,
           decoration: InputDecoration(
             alignLabelWithHint: true,
             enabledBorder: UnderlineInputBorder(

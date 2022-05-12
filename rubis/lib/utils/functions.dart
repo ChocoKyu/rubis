@@ -7,6 +7,8 @@ import "package:rubis/class/itemClass.dart";
 import "package:rubis/class/memberClass.dart";
 
 // Partie init des variables
+String ipConfig = "192.168.2.186"; //DF
+// String ipConfig = "192.168.4.153"; //SIO
 Member memberNew;
 Member memberConnexion = Member("", "", "", "", "", "", "", "", "", "");
 List<Member> newMembers = [];
@@ -66,8 +68,9 @@ String googleTrad(String string, bool language) {
 Future<http.Response> addUser() {
   // Ajouter un utilisateur dans la base de donnees
   return http.post(
-    Uri.parse(
-        "http://192.168.4.153/addMember.php"), //ipconfig -all: ip  de la carte réseaux sans fil wifi si en localhost pour test
+    Uri.parse("http://" +
+        ipConfig +
+        "/addMember.php"), //ipconfig -all: ip  de la carte réseaux sans fil wifi si en localhost pour test
     headers: <String, String>{
       "Content-Type": "application/json; charset=UTF-8",
     },
@@ -87,8 +90,9 @@ Future<String> login() async {
   String statut = "";
 
   final response = await http.post(
-    Uri.parse(
-        "http://192.168.4.153/connexionMember.php"), //ipconfig -all: ip  de la carte réseaux sans fil wifi si en localhost pour test (désactiver le par-feu)
+    Uri.parse("http://" +
+        ipConfig +
+        "/connexionMember.php"), //ipconfig -all: ip  de la carte réseaux sans fil wifi si en localhost pour test (désactiver le par-feu)
     headers: <String, String>{
       "Content-Type": "application/json; charset=UTF-8",
     },
@@ -121,8 +125,9 @@ Future<String> getMembersList() async {
   String statut = "";
 
   final response = await http.post(
-    Uri.parse(
-        "http://192.168.4.153/getMembersList.php"), //ipconfig -all: ip  de la carte réseaux sans fil wifi si en localhost pour test (désactiver le par-feu)
+    Uri.parse("http://" +
+        ipConfig +
+        "/getMembersList.php"), //ipconfig -all: ip  de la carte réseaux sans fil wifi si en localhost pour test (désactiver le par-feu)
     headers: <String, String>{
       "Content-Type": "application/json; charset=UTF-8",
     },
@@ -203,8 +208,9 @@ Future<String> getMembersList() async {
 Future<http.Response> changeMemberRole(String pseudo, int role) {
   // modifie le role du membre dans la base de donnees
   return http.post(
-    Uri.parse(
-        "http://192.168.4.153/changeMemberRole.php"), //ipconfig -all: ip  de la carte réseaux sans fil wifi si en localhost pour test
+    Uri.parse("http://" +
+        ipConfig +
+        "/changeMemberRole.php"), //ipconfig -all: ip  de la carte réseaux sans fil wifi si en localhost pour test
     headers: <String, String>{
       "Content-Type": "application/json; charset=UTF-8",
     },
@@ -220,8 +226,9 @@ Future getConditionsItem() async {
   List<String> conditions = ["choix"];
 
   final response = await http.post(
-    Uri.parse(
-        "http://192.168.4.153/getConditionsItem.php"), //ipconfig -all: ip  de la carte réseaux sans fil wifi si en localhost pour test (désactiver le par-feu)
+    Uri.parse("http://" +
+        ipConfig +
+        "/getConditionsItem.php"), //ipconfig -all: ip  de la carte réseaux sans fil wifi si en localhost pour test (désactiver le par-feu)
     headers: <String, String>{
       "Content-Type": "application/json; charset=UTF-8",
     },
@@ -245,8 +252,9 @@ Future getBrandsItem() async {
   List<String> brands = ["choix"];
 
   final response = await http.post(
-    Uri.parse(
-        "http://192.168.4.153/getBrandsItem.php"), //ipconfig -all: ip  de la carte réseaux sans fil wifi si en localhost pour test (désactiver le par-feu)
+    Uri.parse("http://" +
+        ipConfig +
+        "/getBrandsItem.php"), //ipconfig -all: ip  de la carte réseaux sans fil wifi si en localhost pour test (désactiver le par-feu)
     headers: <String, String>{
       "Content-Type": "application/json; charset=UTF-8",
     },
@@ -270,8 +278,9 @@ Future getLocations() async {
   List<String> lieux = ["choix"];
 
   final response = await http.post(
-    Uri.parse(
-        "http://192.168.4.153/getLocations.php"), //ipconfig -all: ip  de la carte réseaux sans fil wifi si en localhost pour test (désactiver le par-feu)
+    Uri.parse("http://" +
+        ipConfig +
+        "/getLocations.php"), //ipconfig -all: ip  de la carte réseaux sans fil wifi si en localhost pour test (désactiver le par-feu)
     headers: <String, String>{
       "Content-Type": "application/json; charset=UTF-8",
     },
@@ -294,8 +303,9 @@ Future getTypesItem() async {
   List<String> types = ["choix"];
 
   final response = await http.post(
-    Uri.parse(
-        "http://192.168.4.153/getTypesItem.php"), //ipconfig -all: ip  de la carte réseaux sans fil wifi si en localhost pour test (désactiver le par-feu)
+    Uri.parse("http://" +
+        ipConfig +
+        "/getTypesItem.php"), //ipconfig -all: ip  de la carte réseaux sans fil wifi si en localhost pour test (désactiver le par-feu)
     headers: <String, String>{
       "Content-Type": "application/json; charset=UTF-8",
     },
@@ -331,8 +341,9 @@ Future getSettingsItem() async {
   }
 
   final response = await http.post(
-    Uri.parse(
-        "http://192.168.4.153/getSettingsItem.php"), //ipconfig -all: ip  de la carte réseaux sans fil wifi si en localhost pour test (désactiver le par-feu)
+    Uri.parse("http://" +
+        ipConfig +
+        "/getSettingsItem.php"), //ipconfig -all: ip  de la carte réseaux sans fil wifi si en localhost pour test (désactiver le par-feu)
     headers: <String, String>{
       "Content-Type": "application/json; charset=UTF-8",
     },
@@ -368,8 +379,9 @@ Future getSettingsItem() async {
 Future addSetting(table, value, condition) async {
   // ajoute un nouvel element d'un type de parametre dans la base de donnee
   return http.post(
-    Uri.parse(
-        "http://192.168.4.153/addSetting.php"), //ipconfig -all: ip  de la carte réseaux sans fil wifi si en localhost pour test
+    Uri.parse("http://" +
+        ipConfig +
+        "/addSetting.php"), //ipconfig -all: ip  de la carte réseaux sans fil wifi si en localhost pour test
     headers: <String, String>{
       "Content-Type": "application/json; charset=UTF-8",
     },
@@ -384,8 +396,9 @@ Future addSetting(table, value, condition) async {
 Future addItemBDD() async {
   // ajoute un nouvel element d'un type de parametre dans la base de donnee
   return http.post(
-    Uri.parse(
-        "http://192.168.4.153/addItem.php"), //ipconfig -all: ip  de la carte réseaux sans fil wifi si en localhost pour test
+    Uri.parse("http://" +
+        ipConfig +
+        "/addItem.php"), //ipconfig -all: ip  de la carte réseaux sans fil wifi si en localhost pour test
     headers: <String, String>{
       "Content-Type": "application/json; charset=UTF-8",
     },
@@ -404,8 +417,9 @@ Future getInventory(String condition) async {
   allItems = [];
 
   final response = await http.post(
-    Uri.parse(
-        "http://192.168.4.153/getInventory.php"), //ipconfig -all: ip  de la carte réseaux sans fil wifi si en localhost pour test (désactiver le par-feu)
+    Uri.parse("http://" +
+        ipConfig +
+        "/getInventory.php"), //ipconfig -all: ip  de la carte réseaux sans fil wifi si en localhost pour test (désactiver le par-feu)
     headers: <String, String>{
       "Content-Type": "application/json; charset=UTF-8",
     },

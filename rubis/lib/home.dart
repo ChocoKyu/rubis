@@ -1,8 +1,9 @@
 // ignore_for_file: file_names
 import "package:rubis/sizeConfig.dart";
 import "package:flutter/material.dart";
-import "package:rubis/inventory/addItem.dart";
+import "package:rubis/class/itemClass.dart";
 import "package:rubis/userSecurStorage.dart";
+import "package:rubis/inventory/addItem.dart";
 import "package:rubis/inventory/scanner.dart";
 import "package:rubis/inventory/inventory.dart";
 import "package:rubis/manage_member/manageMember.dart";
@@ -194,6 +195,28 @@ class CardMenu extends StatelessWidget {
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
             }
           } else if (index == 1) {
+            functions.addItem = Item({
+              "qrcode": "",
+              "collection": "false",
+              "etat": "",
+              "marque": "",
+              "lieu": "",
+              "type": "",
+            }, {
+              "qrcode": {},
+              "collection": {},
+              "etat": {},
+              "marque": {},
+              "lieu": {},
+              "type": {}
+            }, {
+              "qrcode": "barcode",
+              "collection": "checkbox",
+              "etat": "dropdown",
+              "marque": "dropdown",
+              "lieu": "dropdown",
+              "type": "dropdown"
+            }, 0);
             await functions.initAddItem();
             Navigator.push(
               context,

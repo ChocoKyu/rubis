@@ -27,7 +27,7 @@ $marque = $data->marque;
 $select_marque = "(SELECT id FROM brands WHERE name = '$marque')";
 $commentaire = $data->commentaire;
 
-$query = "INSERT INTO items (qrcode, lieu, type, brand, `condition`, collection, `comment`) VALUES ('$qrcode', $select_lieu, $select_type, $select_marque, $select_etat, $collection, '$commentaire')";
+$query = "INSERT INTO items (qrcode, location, type, brand, `condition`, collection, `comment`) VALUES ('$qrcode', $select_lieu, $select_type, $select_marque, $select_etat, $collection, '$commentaire')";
 echo($query);
 $dbh->exec($query);
 

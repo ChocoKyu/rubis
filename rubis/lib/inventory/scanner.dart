@@ -44,9 +44,6 @@ class ScannerState extends State<Scanner> {
             thisItem.id.toString()),
       ),
       body: AnimatedListView(
-        duration: 100,
-        extendedSpaceBetween: 30,
-        spaceBetween: 10,
         children: List.generate(
           thisItem.item.length,
           (index) => Card(
